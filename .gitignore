@@ -1,0 +1,16 @@
+.vlt
+.DS_Store
+*.iml
+target
+.checkstyle
+.classpath
+.project
+.settings
+*.dir
+MANIFEST.MF
+bin
+*.jar
+.pmd
+.pmdruleset
+derby.log
+.idea
