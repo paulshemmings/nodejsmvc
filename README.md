@@ -13,3 +13,4 @@ To run:
 2. Install node.
 3. Open terminal window.
 4. node entrypoint.js
+5. Open a browser to http://localhost:8099/home
