@@ -14,7 +14,10 @@ function start() {
      * Return Static content from file server
      */
     		
-	function serveStaticContent(request) {
+	function serveStaticContent(request) {	
+		if (request.path.trim().length == 0) {
+			request.path = "/public/pages/index.html";
+		}
 		staticutil.serveStaticFile({
 			path 		: "." + request.path,
 			callback 	: request.callback
@@ -27,7 +30,8 @@ function start() {
 	 */
 	
 	function serverDynamicContent(request) {
-		var pathSections = request.path.split('/');
+
+		var pathSections = request.path.split('/');		
 		var controllerName = pathSections.splice(1,1);
 		var controllerPath = './controllers/' + controllerName;
 		
@@ -72,17 +76,20 @@ function start() {
 	
 		var requestPath = url.parse(req.url).pathname;
 		if(requestPath.match(/\/$/)) {
-			console.log('remove end characeter');
+			console.log('remove end character');
 			requestPath = requestPath.slice(0,-1);
 		}
 		
 		console.log("serving: " + requestPath);
 		
-		 // assume that no URL with a . in it is looking for dynamic content.
-		 // Hacky but works. 
+		 // If the path is empty, we are at the root, so show root html page.
+		 // Assume that no URL with a . in it is looking for dynamic content.
+		 // This is obviously a little hacky but works. 
 		 
 		 var contentBuilder;
-		 if (requestPath.indexOf('.')==-1) {
+		 if (requestPath.trim().length == 0) {
+		 	contentBuilder = serveStaticContent;
+		 } else if (requestPath.indexOf('.')==-1) {
 		 	contentBuilder = serverDynamicContent;
 		 } else {
 		 	contentBuilder = serveStaticContent;
@@ -93,7 +100,7 @@ function start() {
 		 contentBuilder({
 			path		: requestPath, 
 			callback	: function(data){			
-				console.log("return:[" + data.content.length + "][" + data.status + "][" + data.type["Content-Type"] + "]");
+				console.log("return:[" + data.status + "][" + data.type["Content-Type"] + "][" + data.content.length + "]");
 				resp.writeHead(data.status, data.type);
 				resp.end(data.content);
 			}		 	
@@ -105,6 +112,7 @@ function start() {
 	 * Listen to HTTP port
 	 */
 
+	console.log("now listening on port " + PORT + "");
 	http.createServer(handleRequest).listen(PORT);
 };
 
