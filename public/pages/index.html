@@ -1,3 +1,38 @@
 <html>
-	<h1>This is the front page, made up of a single static file served up by Node.js</h1>
+	<head>
+		<link href="/public/styles/global.css" type="text/css" rel="stylesheet"  />	
+	</head>
+	<body>
+		<h2>Node.js Simple (M)VC Framework</h2>
+		<p>
+			Unless you install 3rd party frameworks, Node.js won't support serving
+			static content. Nor will it route based on the URL path. This simple framework
+			solves both of those issues. It is very simple, but what it does do is -
+		</p>
+		<p>	
+			<ul>
+				<li>1. Serve a static HTML page if the path is empty</li>
+				<li>2. Serve static content that matches the path, if that content exists</li>
+				<li>3. Checks the static content exists, and returns a 404 if it doesn't</li>
+				<li>4. Routes requests to a method on a controller class, if that controller class exists</li>
+				<li>5. Checks that the controller exists, returns a 404 if it doesn't</li>
+				<li>6. Checks that the controller class has that method. Returns a warning if it doesn't</li>
+				<li>7. Allows you to drop in controllers and templates.</li>
+				<li>8. Includes handlebar.js for simple client side templating</li>
+				<li>9. Includes two simple controllers, home and welcome.</li> 
+			</ul>
+			
+		</p>
+		<p>
+			To run:
+		</p>
+		<ul>			
+			<li>1. Clone the code.</li>
+			<li>2. Install node.</li>
+			<li>3. Open terminal window.</li>
+			<li>4. node entrypoint.js</li>
+			<li>5. Open a browser to http://localhost:8099/home	</li>		
+		</ul>
+		<h2></h2>
+	</body>
 </html>
