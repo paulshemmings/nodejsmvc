@@ -1,5 +1,10 @@
 var constants = require("./../constants");
 
+	/*
+	 * The catch all method
+	 * This is so you don't have to create a method for each template
+	 */
+	 
 	function execute(request) {
 		var staticutil = require('./../staticutil');	
 		var method = request.paths.splice(1,1);	
@@ -11,6 +16,11 @@ var constants = require("./../constants");
 			callback 	: request.callback
 		});	
 	}
+	
+	/*
+	 * function that returns JSON
+	 * JSON.stringify is important! don't just json in a string, handlebars won't like it
+	 */
 
 	function gettemplatedata(request) {
     	request.callback({
@@ -22,6 +32,10 @@ var constants = require("./../constants");
     		type	: constants.CONTENT_TYPE_JSON
     	});	
 	}
+	
+	/*
+	 * function that returns plain HTML
+	 */
 
 	function test(request) {
 	    request.callback({
@@ -31,6 +45,9 @@ var constants = require("./../constants");
 	    });	
 	}
 	
+/* 
+ * Export the methods you want this controller to publish
+ */	
 
 exports.execute = execute;
 exports.gettemplatedata = gettemplatedata;
