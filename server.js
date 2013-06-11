@@ -32,13 +32,28 @@ function start() {
 		var controllerPath = './controllers/' + controllerName;
 		
 		staticutil.checkFileExists(controllerPath + ".js", function(exists) {
-			if(exists) {
+			if (exists) {
 				var controller = require('./controllers/' + controllerName);	
-				controller.execute({
-					request 	: request.request, 
-					paths		: pathSections, 
-					callback 	: request.callback
-				});			
+				var method = (pathSections[1] || '').trim().length == 0 ? 'index' :pathSections[1];
+				if (controller[method]) {
+					controller[method]({
+						request 	: request.request, 
+						paths		: pathSections, 
+						callback 	: request.callback
+					});						
+				} else if(controller["execute"]) {
+					controller.execute({
+						request 	: request.request, 
+						paths		: pathSections, 
+						callback 	: request.callback
+					});		
+				} else {
+				 	request.callback({
+				 		content		: 'invalid method',
+				 		status		: constants.HTTP_STATUS_NOT_FOUND,
+				 		type		: constants.CONTENT_TYPE_PLAIN
+				 	});				
+				}	
 			 } else {
 			 	request.callback({
 			 		content		: 'invalid controller',
@@ -56,6 +71,11 @@ function start() {
 	function handleRequest(req, resp) {
 	
 		var requestPath = url.parse(req.url).pathname;
+		if(requestPath.match(/\/$/)) {
+			console.log('remove end characeter');
+			requestPath = requestPath.slice(0,-1);
+		}
+		
 		console.log("serving: " + requestPath);
 		
 		 // assume that no URL with a . in it is looking for dynamic content.
