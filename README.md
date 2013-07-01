@@ -9,7 +9,7 @@ Includes handlebars.js for client side templating.
 
 To run:
 
-1. Clone the code.
+1. Fork the code.
 2. Install node.
 3. Open terminal window.
 4. node entrypoint.js
